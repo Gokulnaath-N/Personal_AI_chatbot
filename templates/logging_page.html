@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Login - Secure Access</title>
+  <!-- Google Fonts - Inter -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <!-- Font Awesome for icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <!-- Custom CSS -->
+  <link rel="stylesheet" href="/static/css/login.css">
+  <style>
+    /* Loading styles moved to external CSS */
+    .loading {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: #0b0c10;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 9999;
+      transition: opacity 0.5s ease, visibility 0.5s ease;
+    }
+    
+    .loading.hidden {
+      opacity: 0;
+      visibility: hidden;
+    }
+    
+    .loader {
+      width: 50px;
+      height: 50px;
+      border: 3px solid rgba(255, 255, 255, 0.1);
+      border-radius: 50%;
+      border-top-color: #3b82f6;
+      animation: spin 1s ease-in-out infinite;
+    }
+    
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+    
+    /* Floating elements */
+    .floating-element {
+      position: absolute;
+      border-radius: 50%;
+      background: linear-gradient(135deg, rgba(59, 130, 246, 0.15), rgba(99, 102, 241, 0.1));
+      backdrop-filter: blur(5px);
+      z-index: -1;
+      animation: float 15s ease-in-out infinite;
+    }
+    
+    .floating-element-1 {
+      width: 200px;
+      height: 200px;
+      top: 10%;
+      left: 5%;
+      animation-delay: 0s;
+    }
+    
+    .floating-element-2 {
+      width: 150px;
+      height: 150px;
+      bottom: 15%;
+      right: 10%;
+      animation-delay: 2s;
+      animation-direction: reverse;
+    }
+    
+    @keyframes float {
+      0% { transform: translateY(0) rotate(0deg); }
+      50% { transform: translateY(-20px) rotate(5deg); }
+      100% { transform: translateY(0) rotate(0deg); }
+    }
+    
+    /* Responsive */
+    @media (max-width: 900px) {
+      .auth-shell { 
+        grid-template-columns: 1fr; 
+        max-width: 500px; 
+      }
+      
+      .brand {
+        min-height: auto;
+        padding: 30px 25px;
+      }
+      
+      .panel {
+        min-height: auto;
+        padding: 40px 30px;
+      }
+    }
+    
+    @media (max-width: 480px) {
+      body {
+        padding: 16px;
+      }
+      
+      .panel, .brand {
+        padding: 25px 20px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Loading Screen -->
+  <div class="loading" id="loading">
+    <div class="loader"></div>
+  </div>
+  
+  <!-- Floating Background Elements -->
+  <div class="floating-element floating-element-1"></div>
+  <div class="floating-element floating-element-2"></div>
+  
+  <div class="auth-shell">
+    <!-- Brand / Illustration side -->
+    <aside class="brand">
+      <div>
+        <a class="logo" href="#" aria-label="AI Model Hub">
+          <span class="dot"></span>
+          <span>AI Model Hub</span>
+        </a>
+
+        <div class="brand-content">
+          <h2>Welcome Back to AI Model Hub</h2>
+          <p>Access powerful AI models and tools to enhance your projects. Sign in to continue your journey with us.</p>
+          
+          <div style="margin-top: 30px;">
+            <div style="display: flex; align-items: center; margin-bottom: 15px;">
+              <i class="fas fa-bolt" style="color: var(--primary); margin-right: 10px; font-size: 14px;"></i>
+              <span>Access to cutting-edge AI models</span>
+            </div>
+            <div style="display: flex; align-items: center; margin-bottom: 15px;">
+              <i class="fas fa-shield-alt" style="color: var(--primary); margin-right: 10px; font-size: 14px;"></i>
+              <span>Enterprise-grade security</span>
+            </div>
+            <div style="display: flex; align-items: center;">
+              <i class="fas fa-chart-line" style="color: var(--primary); margin-right: 10px; font-size: 14px;"></i>
+              <span>Real-time analytics & insights</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="brand-footer">
+          <i class="fas fa-lock" style="margin-right: 5px;"></i> Secure connection • v2.4.1
+        </div>
+      </div>
+    </aside>
+
+    <!-- Form side -->
+    <section class="panel">
+      <h1 class="title">Sign In</h1>
+      <p class="subtitle">Welcome back! Please enter your details</p>
+
+      <form id="loginForm" class="form-login" method="post" action="/login" onsubmit="return handleLogin(event)">
+        <div id="loginError" class="error-message" style="display: none; color: #ff6b6b; margin-bottom: 15px;"></div>
+        <div class="form-group">
+          <label for="email">Email Address</label>
+          <input type="email" id="email" name="email" required>
+        </div>
+        
+        <div class="form-group">
+          <label for="password">Password</label>
+          <input type="password" id="password" name="password" required>
+          <a href="#" class="forgot-password">Forgot Password?</a>
+        </div>
+
+        <div class="form-group" style="display: flex; align-items: center; margin: 5px 0 15px;">
+          <input type="checkbox" id="remember" name="remember" style="margin-right: 10px; width: 16px; height: 16px;">
+          <label for="remember" style="margin: 0; font-size: 14px; color: var(--muted);">Remember me</label>
+        </div>
+
+        <button type="submit" class="btn-login" id="loginButton">
+            <span class="button-text">Sign In</span>
+            <i class="fas fa-arrow-right"></i>
+            <span class="spinner-border spinner-border-sm d-none" role="status" aria-hidden="true" id="loginSpinner"></span>
+          </button>
+          <div id="errorMessage" class="error-message mt-3 text-danger d-none"></div>
+
+        <div class="divider">
+          <span>or continue with</span>
+        </div>
+
+        <div class="social-login" style="display: flex; justify-content: center; gap: 15px; margin: 15px 0 20px;">
+          <button type="button" class="social-btn" style="width: 44px; height: 44px; border-radius: 12px; border: 1px solid var(--border); background: rgba(255, 255, 255, 0.05); color: var(--text); display: flex; align-items: center; justify-content: center; cursor: pointer; transition: all 0.2s ease;">
+            <i class="fab fa-google" style="font-size: 18px;"></i>
+          </button>
+          <button type="button" class="social-btn" style="width: 44px; height: 44px; border-radius: 12px; border: 1px solid var(--border); background: rgba(255, 255, 255, 0.05); color: var(--text); display: flex; align-items: center; justify-content: center; cursor: pointer; transition: all 0.2s ease;">
+            <i class="fab fa-github" style="font-size: 18px;"></i>
+          </button>
+        </div>
+
+        <div class="auth-options" style="text-align: center; margin: 20px 0 10px; font-size: 14px; color: var(--muted);">
+          Don't have an account? <a href="/signup" style="color: var(--primary); text-decoration: none; font-weight: 500; margin-left: 5px;">Sign up</a>
+        </div>
+      </form>
+    </section>
+  </div>
+
+  <script>
+    // Handle login form submission
+    async function handleLogin(event) {
+        event.preventDefault();
+        const form = event.target;
+        const formData = new FormData(form);
+        const loginButton = document.getElementById('loginButton');
+        const spinner = document.getElementById('loginSpinner');
+        const buttonText = loginButton.querySelector('.button-text');
+        const errorMessage = document.getElementById('errorMessage');
+
+        // Show loading state
+        loginButton.disabled = true;
+        buttonText.textContent = 'Signing in...';
+        spinner.classList.remove('d-none');
+        errorMessage.classList.add('d-none');
+
+        try {
+            const response = await fetch('/login', {
+                method: 'POST',
+                body: formData
+            });
+
+            if (response.redirected) {
+                window.location.href = response.url;
+            } else {
+                const data = await response.json();
+                errorMessage.textContent = data.error || 'Invalid email or password';
+                errorMessage.classList.remove('d-none');
+            }
+        } catch (error) {
+            console.error('Login error:', error);
+            errorMessage.textContent = 'An error occurred. Please try again.';
+            errorMessage.classList.remove('d-none');
+        } finally {
+            // Reset button state
+            loginButton.disabled = false;
+            buttonText.textContent = 'Sign In';
+            spinner.classList.add('d-none');
+        }
+    }
+
+    // Handle page load
+    document.addEventListener('DOMContentLoaded', function() {
+      // Hide loading screen
+      const loading = document.getElementById('loading');
+      if (loading) {
+        setTimeout(() => loading.classList.add('hidden'), 800);
+      }
+
+      // Handle login form submission
+      const loginForm = document.getElementById('loginForm');
+      if (loginForm) {
+        loginForm.addEventListener('submit', async function(e) {
+          e.preventDefault();
+          
+          const email = document.getElementById('email').value;
+          const password = document.getElementById('password').value;
+          const loginButton = document.getElementById('loginButton');
+          const errorDiv = document.getElementById('loginError');
+          
+          try {
+            // Show loading state
+            loginButton.disabled = true;
+            loginButton.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Signing In...';
+            
+            const formData = new FormData(loginForm);
+            const response = await fetch('/login', {
+              method: 'POST',
+              body: formData
+            });
+            
+            if (response.redirected) {
+              // If we get a redirect response, follow it
+              window.location.href = response.url;
+              return;
+            }
+            
+            const result = await response.json();
+            if (result.error) {
+              // Show error message if login failed
+              errorDiv.textContent = result.error;
+              errorDiv.style.display = 'block';
+            } else {
+              // If no error but no redirect, go to dashboard
+              window.location.href = '/dashboard';
+            }
+          } catch (error) {
+            console.error('Login error:', error);
+            errorDiv.textContent = 'An error occurred. Please try again.';
+            errorDiv.style.display = 'block';
+          } finally {
+            loginButton.disabled = false;
+            loginButton.innerHTML = '<span>Sign In</span><i class="fas fa-arrow-right"></i>';
+          }
+        });
+      }
+    });
+  </script>
+  
+  <script>
+    // Add ripple effect to buttons
+    document.querySelectorAll('button').forEach(button => {
+      button.addEventListener('click', function(e) {
+        const x = e.clientX - e.target.getBoundingClientRect().left;
+        const y = e.clientY - e.target.getBoundingClientRect().top;
+        
+        const ripple = document.createElement('span');
+        ripple.style.left = `${x}px`;
+        ripple.style.top = `${y}px`;
+        ripple.classList.add('ripple');
+        
+        this.appendChild(ripple);
+        
+        setTimeout(() => {
+          ripple.remove();
+        }, 1000);
+      });
+    });
+    
+    // Form submission
+    document.getElementById('loginForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      // Add your form submission logic here
+      console.log('Form submitted');
+    });
+  </script>
+</body>
+</html>

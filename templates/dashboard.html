@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard - Fin-TechAI</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <link rel="stylesheet" href="/static/css/dashboard.css">
+</head>
+<body>
+  <!-- Loading Overlay -->
+  <div id="loading" class="loading-overlay">
+    <div class="loader">
+      <div class="logo-container">
+        <img src="/static/images/ai-finance.png" alt="Fin-TechAI Logo" class="logo">
+        <div class="spinner"></div>
+      </div>
+      <h2 class="loader-text">Fin-TechAI</h2>
+    </div>
+  </div>
+
+  <!-- Sidebar -->
+  <aside class="sidebar">
+    <div class="logo-container">
+      <img src="/static/images/ai-finance.png" alt="Fin-TechAI Logo" class="logo">
+      <h1>Fin-TechAI</h1>
+    </div>
+    
+    <nav class="nav-menu">
+      <a href="/dashboard" class="nav-item active">
+        <i class="fas fa-home"></i>
+        <span>Dashboard</span>
+      </a>
+      <a href="/transactions" class="nav-item">
+        <i class="fas fa-exchange-alt"></i>
+        <span>Transactions</span>
+      </a>
+      <a href="/budgets" class="nav-item">
+        <i class="fas fa-chart-pie"></i>
+        <span>Budgets</span>
+      </a>
+      <a href="/goals" class="nav-item">
+        <i class="fas fa-bullseye"></i>
+        <span>Goals</span>
+      </a>
+      <a href="/reports" class="nav-item">
+        <i class="fas fa-chart-line"></i>
+        <span>Reports</span>
+      </a>
+      <a href="/settings" class="nav-item">
+        <i class="fas fa-cog"></i>
+        <span>Settings</span>
+      </a>
+    </nav>
+    
+    <div class="user-profile">
+      <div class="avatar">
+        <i class="fas fa-user"></i>
+      </div>
+      <div class="user-info">
+        <span class="user-name" id="userName">Loading...</span>
+        <a href="/logout" class="logout-link">Logout</a>
+      </div>
+    </div>
+  </aside>
+
+  <!-- Main Content -->
+  <main class="main-content">
+    <header class="top-bar">
+      <div class="search-bar">
+        <i class="fas fa-search"></i>
+        <input type="text" placeholder="Search...">
+      </div>
+      <div class="notifications">
+        <button class="notification-btn">
+          <i class="fas fa-bell"></i>
+          <span class="notification-badge">3</span>
+        </button>
+      </div>
+    </header>
+    
+    <div class="content-wrapper">
+      <div class="welcome-banner">
+        <h1>Welcome back, <span id="welcomeName">User</span>!</h1>
+        <p>Here's what's happening with your finances today.</p>
+      </div>
+      
+      <div class="stats-grid">
+        <div class="stat-card">
+          <div class="stat-icon" style="background: rgba(74, 222, 128, 0.1);">
+            <i class="fas fa-wallet" style="color: #10b981;"></i>
+          </div>
+          <div class="stat-info">
+            <span class="stat-label">Total Balance</span>
+            <h3 class="stat-value">$<span id="totalBalance">0.00</span></h3>
+          </div>
+        </div>
+        
+        <div class="stat-card">
+          <div class="stat-icon" style="background: rgba(248, 113, 113, 0.1);">
+            <i class="fas fa-arrow-up" style="color: #ef4444;"></i>
+          </div>
+          <div class="stat-info">
+            <span class="stat-label">Expenses</span>
+            <h3 class="stat-value">$<span id="totalExpenses">0.00</span></h3>
+          </div>
+        </div>
+        
+        <div class="stat-card">
+          <div class="stat-icon" style="background: rgba(96, 165, 250, 0.1);">
+            <i class="fas fa-arrow-down" style="color: #3b82f6;"></i>
+          </div>
+          <div class="stat-info">
+            <span class="stat-label">Income</span>
+            <h3 class="stat-value">$<span id="totalIncome">0.00</span></h3>
+          </div>
+        </div>
+        
+        <div class="stat-card">
+          <div class="stat-icon" style="background: rgba(251, 191, 36, 0.1);">
+            <i class="fas fa-piggy-bank" style="color: #f59e0b;"></i>
+          </div>
+          <div class="stat-info">
+            <span class="stat-label">Savings</span>
+            <h3 class="stat-value">$<span id="totalSavings">0.00</span></h3>
+          </div>
+        </div>
+      </div>
+      
+      <div class="charts-row">
+        <div class="chart-container">
+          <div class="chart-header">
+            <h3>Spending Overview</h3>
+            <select class="chart-period-selector">
+              <option>This Month</option>
+              <option>Last Month</option>
+              <option>Last 3 Months</option>
+              <option>This Year</option>
+            </select>
+          </div>
+          <div class="chart-placeholder">
+            <p>Chart will be displayed here</p>
+          </div>
+        </div>
+        
+        <div class="recent-transactions">
+          <div class="transactions-header">
+            <h3>Recent Transactions</h3>
+            <a href="/transactions" class="view-all">View All</a>
+          </div>
+          <div class="transactions-list" id="recentTransactions">
+            <!-- Transactions will be loaded here -->
+            <div class="empty-state">
+              <i class="fas fa-receipt"></i>
+              <p>No recent transactions</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="budgets-row">
+        <div class="budgets-container">
+          <div class="budgets-header">
+            <h3>Budgets</h3>
+            <a href="/budgets" class="view-all">Manage</a>
+          </div>
+          <div class="budgets-list" id="budgetsList">
+            <!-- Budgets will be loaded here -->
+            <div class="empty-state">
+              <i class="fas fa-chart-pie"></i>
+              <p>No budgets set up yet</p>
+              <a href="/budgets" class="btn-secondary">Create Budget</a>
+            </div>
+          </div>
+        </div>
+        
+        <div class="goals-container">
+          <div class="goals-header">
+            <h3>Financial Goals</h3>
+            <a href="/goals" class="view-all">View All</a>
+          </div>
+          <div class="goals-list" id="goalsList">
+            <!-- Goals will be loaded here -->
+            <div class="empty-state">
+              <i class="fas fa-bullseye"></i>
+              <p>No goals set up yet</p>
+              <a href="/goals" class="btn-secondary">Set a Goal</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <script>
+    // Add error message container if it doesn't exist
+    if (!document.getElementById('errorContainer')) {
+      const errorContainer = document.createElement('div');
+      errorContainer.id = 'errorContainer';
+      errorContainer.style.position = 'fixed';
+      errorContainer.style.top = '10px';
+      errorContainer.style.right = '10px';
+      errorContainer.style.zIndex = '9999';
+      document.body.appendChild(errorContainer);
+    }
+
+    function showError(message) {
+      console.error(message);
+      const errorDiv = document.createElement('div');
+      errorDiv.className = 'error-message';
+      errorDiv.style.padding = '10px';
+      errorDiv.style.margin = '10px';
+      errorDiv.style.background = '#fee2e2';
+      errorDiv.style.color = '#b91c1c';
+      errorDiv.style.border = '1px solid #fecaca';
+      errorDiv.style.borderRadius = '4px';
+      errorDiv.textContent = message;
+      document.getElementById('errorContainer').appendChild(errorDiv);
+      setTimeout(() => errorDiv.remove(), 5000);
+    }
+    
+    // Function to get CSRF token from cookies
+    function getCookie(name) {
+      const value = `; ${document.cookie}`;
+      const parts = value.split(`; ${name}=`);
+      if (parts.length === 2) return parts.pop().split(';').shift();
+      return null;
+    }
+
+    // Check authentication status
+    async function checkAuth() {
+      try {
+        // Check if we have the is_authenticated cookie
+        const isAuthenticated = document.cookie.split(';').some(item => item.trim().startsWith('is_authenticated='));
+        
+        if (!isAuthenticated) {
+          console.log('Not authenticated, redirecting to login');
+          window.location.href = '/login';
+          return false;
+        }
+        
+        return true;
+      } catch (error) {
+        console.error('Error in checkAuth:', error);
+        showError('Authentication check failed');
+        window.location.href = '/login';
+        return false;
+      }
+    }
+
+    // Get user data from the server
+    async function fetchUserData() {
+      if (!await checkAuth()) return;
+      
+      try {
+        // Don't send the token in the header - it's in the cookie
+        const response = await fetch('/api/user/me', {
+          credentials: 'include', // This is important for sending cookies
+          headers: {
+            'Accept': 'application/json',
+            'X-Requested-With': 'XMLHttpRequest'
+          }
+        });
+        
+        if (!response.ok) {
+          if (response.status === 401) {
+            // Token expired or invalid, redirect to login
+            showError('Session expired. Please log in again.');
+            window.location.href = '/login';
+            return;
+          }
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        
+        const userData = await response.json();
+        updateUI(userData);
+      } catch (error) {
+        console.error('Error fetching user data:', error);
+        showError('Failed to load user data. Please try again.');
+        window.location.href = '/login';
+      } finally {
+        // Hide loading overlay when done
+        const loading = document.getElementById('loading');
+        if (loading) loading.classList.add('hidden');
+      }
+    }
+
+    // Get auth token from cookies
+    function getAuthToken() {
+      const cookies = document.cookie.split(';');
+      for (const cookie of cookies) {
+        const [name, value] = cookie.trim().split('=');
+        if (name === 'access_token') {
+          // Remove 'Bearer ' prefix if present
+          return value.replace(/^Bearer\s+/i, '');
+        }
+      }
+      return null;
+    }
+
+    // Update UI with user data
+    function updateUI(userData) {
+      try {
+        if (!userData) {
+          throw new Error('No user data received');
+        }
+        
+        // Update user info
+        const userName = document.getElementById('userName');
+        const welcomeName = document.getElementById('welcomeName');
+        
+        if (userName) {
+          userName.textContent = userData.fullname || userData.email || 'User';
+        }
+        
+        if (welcomeName) {
+          welcomeName.textContent = userData.fullname || userData.email?.split('@')[0] || 'User';
+        }
+        
+        // Show main content when data is loaded
+        const mainContent = document.querySelector('.main-content');
+        if (mainContent) {
+          mainContent.style.visibility = 'visible';
+        }
+        
+      } catch (error) {
+        console.error('Error updating UI:', error);
+        showError('Error displaying user data');
+      } finally {
+        // Always hide loading overlay
+        const loading = document.getElementById('loading');
+        if (loading) loading.classList.add('hidden');
+      }
+    }
+
+    // Initialize the dashboard when DOM is loaded
+    document.addEventListener('DOMContentLoaded', async function() {
+      console.log('DOM fully loaded, initializing dashboard...');
+      
+      // Show loading state
+      const loading = document.getElementById('loading');
+      if (loading) {
+        loading.classList.remove('hidden');
+      }
+      
+      try {
+        // Check authentication first
+        const isAuthenticated = await checkAuth();
+        console.log('Is authenticated:', isAuthenticated);
+        
+        if (isAuthenticated) {
+          try {
+            // If authenticated, fetch user data
+            console.log('Fetching user data...');
+            await fetchUserData();
+            
+            // Set up logout handler
+            const logoutLink = document.querySelector('.logout-link');
+            if (logoutLink) {
+              logoutLink.addEventListener('click', async function(e) {
+                e.preventDefault();
+                try {
+                  // Call server-side logout
+                  const response = await fetch('/logout', {
+                    method: 'GET',
+                    credentials: 'include'
+                  });
+                  
+                  if (response.redirected) {
+                    window.location.href = response.url;
+                  } else {
+                    // Fallback to client-side cleanup
+                    document.cookie = 'access_token=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+                    document.cookie = 'is_authenticated=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+                    window.location.href = '/login';
+                  }
+                } catch (error) {
+                  console.error('Error during logout:', error);
+                  // Still try to redirect
+                  window.location.href = '/login';
+                }
+              });
+            }
+          } catch (error) {
+            console.error('Error initializing dashboard:', error);
+            showError('Error loading dashboard. Please try refreshing the page.');
+          }
+        }
+      } catch (error) {
+        console.error('Unexpected error during initialization:', error);
+        showError('An unexpected error occurred. Please try again.');
+      } finally {
+        // Ensure loading is hidden in case of errors
+        if (loading) {
+          loading.classList.add('hidden');
+        }
+      }
+    });
+  </script>
+</body>
+</html>

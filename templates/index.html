@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FinAI - Your Personal Finance Assistant</title>
+    <style>
+        /* Glitch Animation */
+        .glitch {
+            position: relative;
+            color: #fff;
+            font-size: 3.5rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            animation: glitch 3s infinite;
+        }
+        
+        .glitch::before,
+        .glitch::after {
+            content: 'AI-Powered Finance Management';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+        
+        .glitch::before {
+            left: 2px;
+            text-shadow: -2px 0 #ff00ff;
+            clip: rect(44px, 450px, 56px, 0);
+            animation: glitch-anim 5s infinite linear alternate-reverse;
+        }
+        
+        .glitch::after {
+            left: -2px;
+            text-shadow: -2px 0 #00ffff;
+            clip: rect(44px, 450px, 56px, 0);
+            animation: glitch-anim2 5s infinite linear alternate-reverse;
+        }
+        
+        @keyframes glitch-anim {
+            0% { clip: rect(31px, 9999px, 94px, 0); }
+            10% { clip: rect(112px, 9999px, 76px, 0); }
+            20% { clip: rect(85px, 9999px, 77px, 0); }
+            30% { clip: rect(27px, 9999px, 97px, 0); }
+            40% { clip: rect(64px, 9999px, 98px, 0); }
+            50% { clip: rect(61px, 9999px, 85px, 0); }
+            60% { clip: rect(99px, 9999px, 114px, 0); }
+            70% { clip: rect(34px, 9999px, 115px, 0); }
+            80% { clip: rect(98px, 9999px, 129px, 0); }
+            90% { clip: rect(43px, 9999px, 96px, 0); }
+            100% { clip: rect(82px, 9999px, 64px, 0); }
+        }
+        
+        @keyframes glitch-anim2 {
+            0% { clip: rect(65px, 9999px, 119px, 0); }
+            10% { clip: rect(120px, 9999px, 66px, 0); }
+            20% { clip: rect(33px, 9999px, 115px, 0); }
+            30% { clip: rect(90px, 9999px, 11px, 0); }
+            40% { clip: rect(86px, 9999px, 77px, 0); }
+            50% { clip: rect(25px, 9999px, 53px, 0); }
+            60% { clip: rect(112px, 9999px, 59px, 0); }
+            70% { clip: rect(12px, 9999px, 18px, 0); }
+            80% { clip: rect(65px, 9999px, 28px, 0); }
+            90% { clip: rect(120px, 9999px, 69px, 0); }
+            100% { clip: rect(98px, 9999px, 40px, 0); }
+        }
+        
+        @keyframes glitch {
+            0%, 100% { text-shadow: 0.05em 0 0 #00ffff, -0.05em -0.025em 0 #ff00ff; }
+            14% { text-shadow: 0.05em 0 0 #00ffff, -0.05em -0.025em 0 #ff00ff; }
+            15% { text-shadow: -0.05em -0.025em 0 #00ffff, 0.025em 0.025em 0 #ff00ff; }
+            49% { text-shadow: -0.05em -0.025em 0 #00ffff, 0.025em 0.025em 0 #ff00ff; }
+            50% { text-shadow: 0.025em 0.05em 0 #00ffff, 0.05em 0 0 #ff00ff, 0 -0.05em 0 #00ff00; }
+            99% { text-shadow: 0.025em 0.05em 0 #00ffff, 0.05em 0 0 #ff00ff, 0 -0.05em 0 #00ff00; }
+        }
+    </style>
+    <link rel="stylesheet" href="/static/css/index.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="loader">
+        <div class="loader-logo">FinAI</div>
+    </div>
+
+    <nav class="navbar">
+        <div class="logo">FinAI</div>
+        <div class="nav-links">
+            <a href="#features">Features</a>
+            <a href="#how-it-works">How It Works</a>
+            <a href="#testimonials">Testimonials</a>
+            <a href="#contact">Contact</a>
+            <a href="/login" class="login-btn">Login</a>
+            <a href="/signup" class="signup-btn">Sign Up Free</a>
+        </div>
+    </nav>
+
+    <header class="hero">
+        <div class="hero-content">
+            <h1 class="glitch">AI-Powered Finance Management</h1>
+            <p class="subtitle">Smart budgeting and expense tracking for students, professionals, and seniors</p>
+            <div class="cta-buttons">
+                <a href="#get-started" class="cta-primary">Get Started Free</a>
+                <a href="#demo" class="cta-secondary">Watch Demo <i class="fas fa-play"></i></a>
+            </div>
+        </div>
+        <div class="hero-image">
+            <div class="glow-effect"></div>
+            <img src="{{ url_for('static', path='images/ai-finance.png') }}" alt="Fin-TechAI Logo" style="max-width: 100%; height: auto; border-radius: 50%;">
+        </div>
+    </header>
+
+    <section id="features" class="features">
+        <h2>Smart Financial Management</h2>
+        <div class="features-grid">
+            <div class="feature-card">
+                <div class="icon"><i class="fas fa-robot"></i></div>
+                <h3>AI-Powered Insights</h3>
+                <p>Get personalized financial advice based on your spending patterns and goals.</p>
+            </div>
+            <div class="feature-card">
+                <div class="icon"><i class="fas fa-wallet"></i></div>
+                <h3>Expense Tracking</h3>
+                <p>Automatically categorize and track all your expenses in one place.</p>
+            </div>
+            <div class="feature-card">
+                <div class="icon"><i class="fas fa-bullseye"></i></div>
+                <h3>Goal Setting</h3>
+                <p>Set and achieve your financial goals with our smart planning tools.</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="how-it-works" class="how-it-works">
+        <h2>How FinAI Works</h2>
+        <div class="steps">
+            <div class="step">
+                <div class="step-number">1</div>
+                <h3>Connect Your Accounts</h3>
+                <p>Securely link your bank accounts and credit cards in minutes.</p>
+            </div>
+            <div class="step">
+                <div class="step-number">2</div>
+                <h3>Let AI Analyze</h3>
+                <p>Our AI studies your spending habits and financial situation.</p>
+            </div>
+            <div class="step">
+                <div class="step-number">3</div>
+                <h3>Get Smart Advice</h3>
+                <p>Receive personalized recommendations to improve your finances.</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="testimonials" class="testimonials">
+        <h2>What Our Users Say</h2>
+        <div class="testimonial-grid">
+            <div class="testimonial">
+                <p>"FinAI helped me save 30% on my monthly expenses as a college student!"</p>
+                <div class="user">- Sarah, College Student</div>
+            </div>
+            <div class="testimonial">
+                <p>"As a young professional, FinAI's smart budgeting helped me pay off my student loans 2 years early!"</p>
+                <div class="user">- Michael, Software Engineer</div>
+            </div>
+            <div class="testimonial">
+                <p>"I never thought I could save money until I started using FinAI. Now I have a 6-month emergency fund!"</p>
+                <div class="user">- Jessica, Freelance Designer</div>
+            </div>
+            <div class="testimonial">
+                <p>"Retirement planning was overwhelming until FinAI broke it down into simple, achievable steps."</p>
+                <div class="user">- Robert, Retired Teacher</div>
+            </div>
+            <div class="testimonial">
+                <p>"The AI insights helped my small business cut unnecessary expenses by 25% in just 3 months."</p>
+                <div class="user">- Aisha, Small Business Owner</div>
+            </div>
+            <div class="testimonial">
+                <p>"As a single parent, FinAI helped me create a realistic budget that actually works for my family."</p>
+                <div class="user">- David, Single Father</div>
+            </div>
+            <div class="testimonial">
+                <p>"I paid off $15,000 in credit card debt in one year thanks to FinAI's debt payoff plan."</p>
+                <div class="user">- Maria, Marketing Manager</div>
+            </div>
+            <div class="testimonial">
+                <p>"The investment tracking feature helped me optimize my portfolio and increase my returns by 18%."</p>
+                <div class="user">- James, Financial Analyst</div>
+            </div>
+            <div class="testimonial">
+                <p>"As a recent graduate, FinAI helped me navigate my first salary and save for my dream vacation."</p>
+                <div class="user">- Emily, Recent Graduate</div>
+            </div>
+            <div class="testimonial">
+                <p>"The bill tracking feature saved me from late fees and improved my credit score by 50 points!"</p>
+                <div class="user">- Carlos, Restaurant Manager</div>
+            </div>
+            <div class="testimonial">
+                <p>"FinAI's spending insights helped me identify and cut $200 in unnecessary monthly subscriptions."</p>
+                <div class="user">- Priya, UX Designer</div>
+            </div>
+            <div class="testimonial">
+                <p>"As a freelancer, the tax planning tools saved me thousands during tax season."</p>
+                <div class="user">- Alex, Freelance Developer</div>
+            </div>
+            <div class="testimonial">
+                <p>"The family sharing feature helps my wife and I stay on the same page with our finances."</p>
+                <div class="user">- The Wilsons, Married Couple</div>
+            </div>
+        </div>
+    </section>
+
+    <section id="get-started" class="cta-section">
+        <h2>Ready to Take Control of Your Finances?</h2>
+        <p>Join thousands of users managing their money smarter with FinAI</p>
+        <a href="/signup" class="cta-primary">Start Your Free Trial</a>
+    </section>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-logo">FinAI</div>
+            <div class="footer-links">
+                <div class="footer-column">
+                    <h4>Product</h4>
+                    <a href="#features">Features</a>
+                    <a href="#how-it-works">How It Works</a>
+                    <a href="#pricing">Pricing</a>
+                </div>
+                <div class="footer-column">
+                    <h4>Company</h4>
+                    <a href="#about">About Us</a>
+                    <a href="#careers">Careers</a>
+                    <a href="#blog">Blog</a>
+                </div>
+                <div class="footer-column">
+                    <h4>Support</h4>
+                    <a href="#help">Help Center</a>
+                    <a href="#contact">Contact Us</a>
+                    <a href="#privacy">Privacy Policy</a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2025 FinAI. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="{{ url_for('static', path='js/main.js') }}"></script>
+</body>
+</html>
